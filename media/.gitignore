@@ -1,0 +1,12 @@
+*.iml
+*.xml
+__init__.py
+db.sqlite3
+myblog/migrations/
+myblog/__pycache__/
+*.pyc
+*~
+__pycache__
+venv
+/static
+.DS_Store
