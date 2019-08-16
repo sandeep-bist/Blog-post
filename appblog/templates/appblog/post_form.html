@@ -1,0 +1,22 @@
+{% extends "appblog/base.html"%}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="content-section">
+    <form class="form-group" method="POST" enctype="multipart/form-data">
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Blog Post</legend>
+            {% csrf_token %}
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Save</button>
+        </div>  
+    </form>
+</div>
+{% endblock%}
+
+{% block sides %}
+
+{% include "appblog/sidebar.html" %}
+{% endblock sides %}

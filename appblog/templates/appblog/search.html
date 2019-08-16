@@ -1,0 +1,48 @@
+{% extends "blogApp/base.html"%}
+{% block content%}
+
+{% if results %}
+<h1>Results for <b>{{ request.GET.q }}</b></h1>
+<br/><br/>
+
+{% for post in results %}
+
+<article class="media content-section">
+        <img class="rounded-circle article-img" src="{{post.author.profile.image.url}}">
+        <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'user_posts' post.author.username %}">{{post.author}}</a>
+                    <small class="text-muted">{{post.date_posted|date:"F d, Y ,D"}}</small>
+                </div>
+                 <h2><a class="article-title" href="{%  url 'post_detail' post.id%}">{{post.title}}</a></h2>
+                 {% if post.images  %}
+                    <div><img src="{{post.images.url}}" class="img-fluid m-2 p-2"></div>
+                {% endif %}
+                <span><p class="article-content">{{post.content|linebreaks|truncatechars:250}}{% if post.content.count < 200 %}<a href="{%  url 'post_detail' post.id%}">read more</a>{% endif %}</span></p>
+                
+        </div>
+    </article>
+
+
+{% endfor %}
+{% else %}
+<h1>No search results for this query</h1>
+{% endif %}
+<div class="pagination">
+        <span class="step-links">
+            {% if object_list.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ object_list.previous_page_number }}&q={{request.GET.q}}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            </span>
+    
+            {% if object_list.has_next %}
+                <a href="?page={{ object_list.next_page_number }}&q={{request.GET.q}}">next</a>
+                <a href="?page={{ object_list.paginator.num_pages }}&q={{request.GET.q}}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock content%}

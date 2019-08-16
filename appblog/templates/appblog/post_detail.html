@@ -1,0 +1,45 @@
+{% extends "appblog/base.html"%}
+{% block style %}
+#edit:hover{
+    text:Edit;
+}
+#edit:hover{
+    text:Delete;
+}
+
+{% endblock style%}
+{% block content %}
+
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{object.author.profile.image.url}}">
+         <div class="media-body">
+            <div class="article-metadata row ">
+                <div class="col-sm-9">
+                <a class="mr-2 " href="{% url 'user_posts' object.author.username %}">{{object.author}}</a>
+                <small class="text-muted">{{object.date_posted|date:"F d, Y ,D"}}</small>
+                </div>
+                {% if object.author == user %}
+                <div class="col-sm-3 right">
+                 <a id="edit" class="btn btn-sm btn-secondary my-2" href="{% url 'post_update' object.id %}"><ion-icon name="create"></ion-icon></a>
+                 <a id="del" class="btn btn-sm btn-danger my-2" href="{% url 'post_delete' object.id %}"><ion-icon name="trash"></ion-icon></a>
+                </div>
+
+                {% endif %}
+            </div>
+
+             <div class="col-md-auto">
+                <h2 class="article-title">{{object.title}}</h2>
+                {% if object.images  %}
+                <div><img src="{{object.images.url}}" class="img-fluid m-2 p-2"></div>
+                {% endif %}
+                <p class="article-content">{{object.content|safe}}</p>
+             </div>
+
+         </div>
+    </article>
+
+{% endblock %}
+
+{% block sidebar %}
+{{block.super}}
+{% endblock sidebar %} 
